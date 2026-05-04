@@ -55,6 +55,12 @@ Run the scanner and backtest:
 python3 research/swing_stock_strategy.py --start 2018-01-01 --max-positions 2
 ```
 
+Run the pilot report bot:
+
+```bash
+python3 script.py manual
+```
+
 Generated outputs:
 
 - `research/out/weekly_rotation_current_signals.csv`
@@ -71,6 +77,16 @@ Current recommendation from the research conversation:
 - Keep the open TQQQ trade.
 - Do not manually take profit early.
 - Sell only according to the TQQQ strategy: SMA200 break, trailing stop hit, or configured profit target.
+
+## Automation
+
+Automation is documented in [docs/automation.md](docs/automation.md).
+
+The intended setup mirrors the TQQQ repo's safer pattern:
+
+- Cloudflare Worker triggers GitHub Actions through `workflow_dispatch`.
+- This repo runs weekly plus month-end only.
+- The workflow commits `pilot_state.json` and report files so month-end comparison data is preserved.
 
 ## Important Caveats
 

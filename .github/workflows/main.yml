@@ -1,0 +1,84 @@
+name: Swing Stock Pilot
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run mode"
+        required: true
+        default: "weekly"
+        type: choice
+        options:
+          - weekly
+          - monthly
+          - manual
+      schedule:
+        description: "Cron expression from external scheduler"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: swing-stock-pilot-state
+  cancel-in-progress: false
+
+jobs:
+  pilot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run swing pilot
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule || inputs.schedule }}
+          RUN_MODE: ${{ inputs.mode || 'weekly' }}
+        run: python script.py "${RUN_MODE:-weekly}"
+      - name: Save pilot reports
+        run: |
+          if git diff --quiet -- pilot_state.json reports research/out; then
+            echo "No pilot report changes."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pilot_state.json reports research/out
+          git commit -m "Update swing pilot report"
+          git push
+      - name: Alert on workflow failure
+        if: failure()
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import os
+          import requests
+
+          token = os.environ.get("TELEGRAM_TOKEN")
+          chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+          if not token or not chat_id:
+              print("Telegram secrets missing; skipping failure alert.")
+              raise SystemExit(0)
+
+          message = (
+              "⚠️ Swing stock pilot workflow failed\n"
+              "The demo scan/report did not complete successfully.\n"
+              f"Run: {os.environ['RUN_URL']}"
+          )
+          response = requests.post(
+              f"https://api.telegram.org/bot{token}/sendMessage",
+              json={"chat_id": chat_id, "text": message},
+              timeout=30,
+          )
+          response.raise_for_status()
+          PY

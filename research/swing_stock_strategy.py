@@ -122,6 +122,8 @@ def max_drawdown(values):
 
 def cagr(final_value, start_date, end_date):
     years = (pd.Timestamp(end_date) - pd.Timestamp(start_date)).days / 365.25
+    if years <= 0:
+        return 0.0
     return final_value ** (1 / years) - 1
 
 

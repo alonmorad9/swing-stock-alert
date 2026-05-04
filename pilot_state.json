@@ -1,0 +1,8 @@
+{
+  "initial_equity": 1.0,
+  "last_run_at": null,
+  "last_signal_date": null,
+  "pilot_start": "2026-05-04",
+  "swing_strategy": "weekly_top_2_momentum_rotation",
+  "tqqq_reference": "TQQQ buy/hold reference from pilot start; live TQQQ bot remains source of truth"
+}
