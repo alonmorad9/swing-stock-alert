@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -12,7 +13,7 @@ import requests
 
 
 START_CASH = 1.0
-CACHE_DIR = Path("/private/tmp/swing_stock_strategy_cache")
+CACHE_DIR = Path(tempfile.gettempdir()) / "swing_stock_strategy_cache"
 PERIOD1 = 1262304000
 PERIOD2 = 4102444800
 

@@ -2,6 +2,7 @@ __pycache__/
 *.pyc
 .DS_Store
 .env
+scheduler/cloudflare/.wrangler/
 research/out/*.csv
 !research/out/weekly_rotation_current_signals.csv
 !research/out/pullback_profit_taker_current_signals.csv
