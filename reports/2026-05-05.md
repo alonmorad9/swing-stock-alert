@@ -13,15 +13,15 @@ Pilot start: `2026-05-04`
 
 | System | Value | Return | Max DD | Trades |
 | --- | ---: | ---: | ---: | ---: |
-| Swing paper pilot | 1.05x | 4.5% | 0.0% | assumed followed |
+| Swing paper pilot | 1.05x | 4.6% | 0.0% | assumed followed |
 | TQQQ market reference | 1.03x | 3.4% | n/a | not the real TQQQ bot |
 
 ## Paper Positions
 
 | Ticker | Entry Date | Entry | Current | Return | Allocation |
 | --- | --- | ---: | ---: | ---: | ---: |
-| INTC | 2026-05-04 | $97.99 | $105.82 | 8.0% | 50.0% |
-| MRVL | 2026-05-04 | $164.41 | $166.22 | 1.1% | 50.0% |
+| INTC | 2026-05-04 | $97.99 | $105.71 | 7.9% | 50.0% |
+| MRVL | 2026-05-04 | $164.41 | $166.63 | 1.4% | 50.0% |
 
 Current leader since pilot start: **Swing demo**
 
@@ -29,8 +29,8 @@ Current leader since pilot start: **Swing demo**
 
 | Rank | Ticker | Close | Initial Stop | 63d Return | 20d Return |
 | ---: | --- | ---: | ---: | ---: | ---: |
-| 1 | INTC | $105.82 | $93.12 | 114.9% | 100.0% |
-| 2 | MRVL | $166.22 | $146.27 | 120.2% | 52.0% |
+| 1 | INTC | $105.71 | $93.02 | 114.6% | 99.8% |
+| 2 | MRVL | $166.63 | $146.63 | 120.7% | 52.4% |
 
 ## Rejected Profit-Taking Pullback Scan
 
@@ -38,9 +38,9 @@ These are tracked only for research. This strategy is not the recommended primar
 
 | Rank | Ticker | Close | Initial Stop | 63d RS | 20d Return |
 | ---: | --- | ---: | ---: | ---: | ---: |
-| 1 | AMAT | $404.61 | $377.10 | 16.6% | 14.2% |
-| 2 | ABNB | $138.68 | $130.97 | 3.1% | 11.0% |
-| 3 | NVDA | $199.72 | $187.34 | 0.2% | 12.1% |
+| 1 | AMAT | $405.17 | $377.67 | 16.8% | 14.4% |
+| 2 | ABNB | $138.91 | $131.20 | 3.3% | 11.2% |
+| 3 | NVDA | $199.99 | $187.57 | 0.4% | 12.3% |
 
 ## Guardrails
 
