@@ -7,8 +7,8 @@
   "latest_swing_maxdd": 0.0,
   "latest_swing_return": 0.0,
   "latest_swing_value": 1.0,
-  "latest_tqqq_reference_return": 0.0,
-  "latest_tqqq_reference_value": 1.0,
+  "latest_tqqq_market_reference_return": 0.0,
+  "latest_tqqq_market_reference_value": 1.0,
   "market_filter_on": true,
   "pilot_start": "2026-05-04",
   "swing_strategy": "weekly_top_2_momentum_rotation",
@@ -16,5 +16,5 @@
     "INTC",
     "MRVL"
   ],
-  "tqqq_reference": "TQQQ buy/hold reference from pilot start; live TQQQ bot remains source of truth"
+  "tqqq_reference": "TQQQ market reference from pilot start; live TQQQ repo remains source of truth"
 }

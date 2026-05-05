@@ -33,7 +33,7 @@ def load_state():
         "pilot_start": DEFAULT_PILOT_START,
         "initial_equity": 1.0,
         "swing_strategy": "weekly_top_2_momentum_rotation",
-        "tqqq_reference": "TQQQ buy/hold reference from pilot start; live TQQQ bot remains source of truth",
+        "tqqq_reference": "TQQQ market reference from pilot start; live TQQQ repo remains source of truth",
         "last_run_at": None,
         "last_signal_date": None,
     }
@@ -56,7 +56,7 @@ def money(value):
     return f"${value:.2f}"
 
 
-def tqqq_reference_from_start(start):
+def tqqq_market_reference_from_start(start):
     try:
         df = load_prices("TQQQ")
     except Exception as exc:
@@ -99,7 +99,7 @@ def build_report(mode):
     rotation = run_weekly_momentum_rotation(data, qqq, pilot_start, MAX_POSITIONS)
     asof, rotation_signals = scan_weekly_rotation(data, qqq, limit=10)
     _, pullback_signals = scan_pullback_profit_taker(data, qqq, limit=5)
-    tqqq = tqqq_reference_from_start(pilot_start)
+    tqqq = tqqq_market_reference_from_start(pilot_start)
     qqq_row = qqq.loc[asof]
     market_on = qqq_row["Close"] > qqq_row["SMA200"]
 
@@ -110,11 +110,12 @@ def build_report(mode):
             "latest_swing_return": round(rotation["final"] - 1, 6),
             "latest_swing_cagr": round(rotation["cagr"], 6),
             "latest_swing_maxdd": round(rotation["maxdd"], 6),
-            "latest_tqqq_reference_value": round(tqqq["value"], 6) if tqqq and not tqqq.get("error") else None,
-            "latest_tqqq_reference_return": round(tqqq["return"], 6) if tqqq and not tqqq.get("error") else None,
+            "latest_tqqq_market_reference_value": round(tqqq["value"], 6) if tqqq and not tqqq.get("error") else None,
+            "latest_tqqq_market_reference_return": round(tqqq["return"], 6) if tqqq and not tqqq.get("error") else None,
             "market_filter_on": bool(market_on),
             "top_rotation_candidates": [s["ticker"] for s in rotation_signals[:MAX_POSITIONS]],
             "data_errors": errors,
+            "comparison_note": "Month-end real TQQQ result must be read from the tqqq-alert repo position_state.json; this repo only tracks a TQQQ market reference.",
         }
     )
     save_state(state)
@@ -143,12 +144,12 @@ def build_report(mode):
 
     if tqqq and not tqqq.get("error"):
         lines.append(
-            f"| TQQQ reference | {multiple(tqqq['value'])} | {pct(tqqq['return'])} | n/a | live bot owns exits |"
+            f"| TQQQ market reference | {multiple(tqqq['value'])} | {pct(tqqq['return'])} | n/a | not the real TQQQ bot |"
         )
 
     leader = "n/a"
     if tqqq and not tqqq.get("error"):
-        leader = "Swing" if rotation["final"] > tqqq["value"] else "TQQQ reference"
+        leader = "Swing demo" if rotation["final"] > tqqq["value"] else "TQQQ market reference"
     lines.extend(
         [
             "",
@@ -199,6 +200,8 @@ def build_report(mode):
             "",
             "- This swing repo is a demo/pilot for the month.",
             "- The active TQQQ repo remains the source of truth for the open TQQQ trade.",
+            "- The TQQQ value in this report is only a market reference from the pilot start date.",
+            "- For month-end winner calculation, inspect the real `tqqq-alert` repo state and strategy history.",
             "- This repo runs at low frequency to avoid competing with the TQQQ bot for Yahoo data.",
             "- Assume pilot actions are followed only for comparison tracking.",
         ]
@@ -219,9 +222,9 @@ def build_report(mode):
 
 def telegram_summary(report, rotation_signals, tqqq, rotation):
     top = ", ".join(s["ticker"] for s in rotation_signals[:MAX_POSITIONS]) or "none"
-    tqqq_line = "TQQQ reference unavailable"
+    tqqq_line = "TQQQ market reference unavailable"
     if tqqq and not tqqq.get("error"):
-        tqqq_line = f"TQQQ reference: {multiple(tqqq['value'])} ({pct(tqqq['return'])})"
+        tqqq_line = f"TQQQ market ref: {multiple(tqqq['value'])} ({pct(tqqq['return'])})"
 
     return (
         "📊 Swing stock pilot report\n"

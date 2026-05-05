@@ -67,8 +67,8 @@ Every run updates `pilot_state.json` with:
 
 - latest swing pilot value,
 - latest swing return,
-- latest TQQQ reference value,
-- latest TQQQ reference return,
+- latest TQQQ market reference value,
+- latest TQQQ market reference return,
 - current leader.
 
 At month end, ask Codex to inspect:
@@ -76,8 +76,10 @@ At month end, ask Codex to inspect:
 - `reports/latest_report.md`
 - `reports/*.md`
 - `pilot_state.json`
+- the real `tqqq-alert` repo's `position_state.json`
 
 Assumption for the pilot:
 
 - If the swing bot gave an instruction, assume the instruction was followed.
 - The TQQQ repo remains the source of truth for the real TQQQ trade.
+- The TQQQ line inside this repo is only a market reference, not the real live TQQQ strategy result.

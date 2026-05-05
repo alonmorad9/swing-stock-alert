@@ -9,7 +9,7 @@ This repo is the second trading system. It should stay separate from the existin
 Primary system:
 
 - Existing repo: `tqqq-alert`
-- Strategy: TQQQ long-only trend system
+- Strategy: TQQQ long-only swing profit/re-entry system
 - Status: live/open trade
 
 Second system:
@@ -49,18 +49,33 @@ The better active approach is:
 
 ## Current TQQQ Trade Context
 
-From the original TQQQ repo handoff:
+From the current TQQQ repo state/strategy as of 2026-05-05:
 
 - Ticker: `TQQQ`
 - Avg cost: `$61.54`
 - Shares: `40.4647`
 - Entry date: `2026-04-29`
-- Highest high since entry: `$65.84`
-- Current trailing stop at handoff: about `$49.38`
-- Next profit target: about `$138.47`
+- Highest high since entry: about `$66.61`
+- Active trailing stop: 25% below highest high since entry
+- Profit target: sell all at +20% from average cost
+- Re-buy trigger after profit exit: 7.5% pullback from profit sell price, or 20 trading days if still above SMA200
+- Current mode: in position, not waiting for pullback
 
-Recommendation as of 2026-05-04:
+Recommendation as of 2026-05-05:
 
 - Hold TQQQ under the current strategy.
 - Do not manually take profit around a small gain.
 - Let the strategy rules decide.
+
+## Month-End Comparison Rule
+
+The swing repo's automated TQQQ line is only a simple market reference from the pilot start date.
+
+For the real winner calculation, inspect the `tqqq-alert` repo directly:
+
+- `position_state.json`
+- recent GitHub Actions runs
+- any Telegram trade instructions
+- current strategy code/commits
+
+The TQQQ repo remains the source of truth for the real strategy.

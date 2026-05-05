@@ -31,13 +31,14 @@ Main test window: 2018-01-01 through 2026-05-04.
 | Strategy | Final | CAGR | Max DD | Calmar | Trades |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Weekly top-2 swing momentum rotation | 16.5x | 40.0% | -39.5% | 1.01 | 480 |
-| Current TQQQ live-like strategy | 16.1x | 39.6% | -34.9% | 1.14 | 45 |
+| Old TQQQ live-like strategy at research time | 16.1x | 39.6% | -34.9% | 1.14 | 45 |
 | TQQQ buy and hold | 11.3x | 33.8% | -81.7% | 0.41 | 1 |
 | Best pullback profit-taking variant | 2.7x | 12.8% | -26.3% | 0.49 | 1,649 |
 
 Conclusion:
 
-- Keep managing the current open TQQQ trade under the existing TQQQ bot rules.
+- Keep managing the current open TQQQ trade under the TQQQ bot rules.
+- The TQQQ strategy changed after initial swing research; the TQQQ repo is the source of truth for the real strategy.
 - Run this swing system as a second, separate pilot.
 - Do not replace the TQQQ strategy yet.
 
@@ -86,7 +87,8 @@ The intended setup mirrors the TQQQ repo's safer pattern:
 
 - Cloudflare Worker triggers GitHub Actions through `workflow_dispatch`.
 - This repo runs weekly plus month-end only.
-- The workflow commits `pilot_state.json` and report files so month-end comparison data is preserved.
+- The workflow commits `pilot_state.json` and report files so swing demo data is preserved.
+- Month-end comparison must inspect the real TQQQ repo directly, because this repo only records a TQQQ market reference.
 
 ## Important Caveats
 
