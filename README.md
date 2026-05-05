@@ -42,6 +42,11 @@ Conclusion:
 - Run this swing system as a second, separate pilot.
 - Do not replace the TQQQ strategy yet.
 
+Pilot tracking note:
+
+- The demo paper portfolio is seeded from the first official report on 2026-05-04.
+- It assumes 50% `INTC` at `$97.99` and 50% `MRVL` at `$164.41`.
+
 ## Run Locally
 
 Install dependencies:

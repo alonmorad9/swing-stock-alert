@@ -17,6 +17,7 @@ Second system:
 - New repo: `swing-stock-alert`
 - Strategy: weekly top-2 swing momentum rotation
 - Status: research/pilot candidate
+- Paper tracking: seeded from the first official report on 2026-05-04, assuming 50% `INTC` and 50% `MRVL`.
 
 ## Recommended Operating Plan
 
@@ -34,6 +35,11 @@ Do not do yet:
 ## Strategy Decision
 
 The weekly top-2 swing rotation is the best stock-swing candidate found so far.
+
+For this month's demo, the repo tracks a simple paper portfolio because the pilot started before the first normal Friday rebalance:
+
+- `INTC`, 50% allocation, seeded from the 2026-05-04 report at `$97.99`
+- `MRVL`, 50% allocation, seeded from the 2026-05-04 report at `$164.41`
 
 The pullback profit-taking system was tested because it matched the user's instinct to take short profits and recycle capital. It underperformed:
 

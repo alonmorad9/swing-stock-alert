@@ -77,6 +77,39 @@ def tqqq_market_reference_from_start(start):
     }
 
 
+def paper_portfolio_value(state, data, asof):
+    positions = state.get("paper_positions", [])
+    if not positions:
+        return None
+
+    value = float(state.get("paper_cash", 0.0))
+    details = []
+    for position in positions:
+        ticker = position["ticker"]
+        entry_price = float(position["entry_price"])
+        allocation = float(position["allocation"])
+        if ticker not in data or asof not in data[ticker].index:
+            current_price = entry_price
+        else:
+            current_price = float(data[ticker].loc[asof]["Close"])
+        position_value = allocation * (current_price / entry_price)
+        value += position_value
+        details.append(
+            {
+                "ticker": ticker,
+                "entry_date": position["entry_date"],
+                "entry_price": entry_price,
+                "current_price": current_price,
+                "allocation": allocation,
+                "value": position_value,
+                "return": current_price / entry_price - 1,
+                "initial_stop": position.get("initial_stop"),
+            }
+        )
+
+    return {"value": value, "return": value - 1, "details": details}
+
+
 def send_telegram(message):
     token = os.environ.get("TELEGRAM_TOKEN")
     chat_id = os.environ.get("TELEGRAM_CHAT_ID")
@@ -100,14 +133,17 @@ def build_report(mode):
     asof, rotation_signals = scan_weekly_rotation(data, qqq, limit=10)
     _, pullback_signals = scan_pullback_profit_taker(data, qqq, limit=5)
     tqqq = tqqq_market_reference_from_start(pilot_start)
+    paper = paper_portfolio_value(state, data, asof)
     qqq_row = qqq.loc[asof]
     market_on = qqq_row["Close"] > qqq_row["SMA200"]
+    swing_value = paper["value"] if paper else rotation["final"]
+    swing_return = swing_value - 1
 
     state.update(
         {
             "last_signal_date": asof.isoformat(),
-            "latest_swing_value": round(rotation["final"], 6),
-            "latest_swing_return": round(rotation["final"] - 1, 6),
+            "latest_swing_value": round(swing_value, 6),
+            "latest_swing_return": round(swing_return, 6),
             "latest_swing_cagr": round(rotation["cagr"], 6),
             "latest_swing_maxdd": round(rotation["maxdd"], 6),
             "latest_tqqq_market_reference_value": round(tqqq["value"], 6) if tqqq and not tqqq.get("error") else None,
@@ -137,8 +173,8 @@ def build_report(mode):
         "| System | Value | Return | Max DD | Trades |",
         "| --- | ---: | ---: | ---: | ---: |",
         (
-            f"| Swing top-2 rotation | {multiple(rotation['final'])} | "
-            f"{pct(rotation['final'] - 1)} | {pct(rotation['maxdd'])} | {rotation['trades']} |"
+            f"| Swing paper pilot | {multiple(swing_value)} | "
+            f"{pct(swing_return)} | {pct(rotation['maxdd'])} | assumed followed |"
         ),
     ]
 
@@ -149,7 +185,23 @@ def build_report(mode):
 
     leader = "n/a"
     if tqqq and not tqqq.get("error"):
-        leader = "Swing demo" if rotation["final"] > tqqq["value"] else "TQQQ market reference"
+        leader = "Swing demo" if swing_value > tqqq["value"] else "TQQQ market reference"
+    if paper:
+        lines.extend(
+            [
+                "",
+                "## Paper Positions",
+                "",
+                "| Ticker | Entry Date | Entry | Current | Return | Allocation |",
+                "| --- | --- | ---: | ---: | ---: | ---: |",
+            ]
+        )
+        for item in paper["details"]:
+            lines.append(
+                f"| {item['ticker']} | {item['entry_date']} | {money(item['entry_price'])} | "
+                f"{money(item['current_price'])} | {pct(item['return'])} | {pct(item['allocation'])} |"
+            )
+
     lines.extend(
         [
             "",
@@ -199,6 +251,7 @@ def build_report(mode):
             "## Guardrails",
             "",
             "- This swing repo is a demo/pilot for the month.",
+            "- Swing paper performance assumes the first reported candidates were bought for the demo.",
             "- The active TQQQ repo remains the source of truth for the open TQQQ trade.",
             "- The TQQQ value in this report is only a market reference from the pilot start date.",
             "- For month-end winner calculation, inspect the real `tqqq-alert` repo state and strategy history.",
@@ -226,10 +279,13 @@ def telegram_summary(report, rotation_signals, tqqq, rotation):
     if tqqq and not tqqq.get("error"):
         tqqq_line = f"TQQQ market ref: {multiple(tqqq['value'])} ({pct(tqqq['return'])})"
 
+    state = load_state()
+    paper_value = state.get("latest_swing_value", rotation["final"])
+    paper_return = state.get("latest_swing_return", rotation["final"] - 1)
     return (
         "📊 Swing stock pilot report\n"
         f"Top weekly candidates: {top}\n"
-        f"Swing pilot: {multiple(rotation['final'])} ({pct(rotation['final'] - 1)})\n"
+        f"Swing pilot: {multiple(paper_value)} ({pct(paper_return)})\n"
         f"{tqqq_line}\n"
         "Full report committed to reports/latest_report.md"
     )

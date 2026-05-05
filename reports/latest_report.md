@@ -5,25 +5,32 @@ Pilot start: `2026-05-04`
 
 ## Market Filter
 
-- QQQ close: $679.90
-- QQQ SMA200: $604.03
+- QQQ close: $680.57
+- QQQ SMA200: $604.04
 - Market filter: ON
 
 ## Pilot Performance
 
 | System | Value | Return | Max DD | Trades |
 | --- | ---: | ---: | ---: | ---: |
-| Swing top-2 rotation | 1.00x | 0.0% | 0.0% | 0 |
-| TQQQ market reference | 1.03x | 3.1% | n/a | not the real TQQQ bot |
+| Swing paper pilot | 1.05x | 4.5% | 0.0% | assumed followed |
+| TQQQ market reference | 1.03x | 3.4% | n/a | not the real TQQQ bot |
 
-Current leader since pilot start: **TQQQ market reference**
+## Paper Positions
+
+| Ticker | Entry Date | Entry | Current | Return | Allocation |
+| --- | --- | ---: | ---: | ---: | ---: |
+| INTC | 2026-05-04 | $97.99 | $105.82 | 8.0% | 50.0% |
+| MRVL | 2026-05-04 | $164.41 | $166.22 | 1.1% | 50.0% |
+
+Current leader since pilot start: **Swing demo**
 
 ## Weekly Rotation Candidates
 
 | Rank | Ticker | Close | Initial Stop | 63d Return | 20d Return |
 | ---: | --- | ---: | ---: | ---: | ---: |
-| 1 | INTC | $106.81 | $93.99 | 116.9% | 101.9% |
-| 2 | MRVL | $166.90 | $146.87 | 121.0% | 52.7% |
+| 1 | INTC | $105.82 | $93.12 | 114.9% | 100.0% |
+| 2 | MRVL | $166.22 | $146.27 | 120.2% | 52.0% |
 
 ## Rejected Profit-Taking Pullback Scan
 
@@ -31,13 +38,14 @@ These are tracked only for research. This strategy is not the recommended primar
 
 | Rank | Ticker | Close | Initial Stop | 63d RS | 20d Return |
 | ---: | --- | ---: | ---: | ---: | ---: |
-| 1 | AMAT | $403.83 | $376.32 | 16.5% | 14.0% |
-| 2 | ABNB | $139.03 | $131.40 | 3.5% | 11.3% |
-| 3 | NVDA | $199.71 | $187.33 | 0.3% | 12.1% |
+| 1 | AMAT | $404.61 | $377.10 | 16.6% | 14.2% |
+| 2 | ABNB | $138.68 | $130.97 | 3.1% | 11.0% |
+| 3 | NVDA | $199.72 | $187.34 | 0.2% | 12.1% |
 
 ## Guardrails
 
 - This swing repo is a demo/pilot for the month.
+- Swing paper performance assumes the first reported candidates were bought for the demo.
 - The active TQQQ repo remains the source of truth for the open TQQQ trade.
 - The TQQQ value in this report is only a market reference from the pilot start date.
 - For month-end winner calculation, inspect the real `tqqq-alert` repo state and strategy history.
