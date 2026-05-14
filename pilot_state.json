@@ -2,14 +2,14 @@
   "comparison_note": "Month-end real TQQQ result must be read from the tqqq-alert repo position_state.json; this repo only tracks a TQQQ market reference.",
   "data_errors": [],
   "initial_equity": 1.0,
-  "last_run_at": "2026-05-07T21:31:27.822670+00:00",
-  "last_signal_date": "2026-05-07",
-  "latest_swing_cagr": 0.0,
-  "latest_swing_maxdd": 0.0,
-  "latest_swing_return": 0.045962,
-  "latest_swing_value": 1.045962,
-  "latest_tqqq_market_reference_return": 0.09906,
-  "latest_tqqq_market_reference_value": 1.09906,
+  "last_run_at": "2026-05-14T21:31:40.855159+00:00",
+  "last_signal_date": "2026-05-14",
+  "latest_swing_cagr": -0.934164,
+  "latest_swing_maxdd": -0.076339,
+  "latest_swing_return": 0.146798,
+  "latest_swing_value": 1.146798,
+  "latest_tqqq_market_reference_return": 0.216299,
+  "latest_tqqq_market_reference_value": 1.216299,
   "market_filter_on": true,
   "paper_cash": 0.0,
   "paper_positions": [
@@ -33,7 +33,7 @@
   "swing_strategy": "weekly_top_2_momentum_rotation",
   "top_rotation_candidates": [
     "INTC",
-    "AMD"
+    "MRVL"
   ],
   "tqqq_reference": "TQQQ market reference from pilot start; live TQQQ repo remains source of truth"
 }
