@@ -66,12 +66,13 @@ From the current TQQQ repo state/strategy as of 2026-05-21:
 - Tracked cash: about `$0.00`
 - Waiting asset: none while TQQQ is open
 - Manual exit mode: false
-- Current selected TQQQ trailing stop: 16% true ratchet
+- Current selected TQQQ trailing stop: 25% true ratchet
 - Profit target: sell all at +20% from average cost
-- Parabolic auto-exit: sell profitable TQQQ if 5-day return is at least 25% or 10-day return is at least 30%
-- Re-entry guard: TQQQ RSI14 must be at or below 80
+- Parabolic auto-exit: sell profitable TQQQ if 5-day return is at least 25%.
+- Early-warning risk: advisory only, no automatic sell. Current warnings are VIX >= 25, VIX 5-day spike >= 25%, QQQ below EMA21, TQQQ below SMA20, and TQQQ RSI falling from 70+.
+- Re-entry guard: TQQQ RSI14 must be at or below 70
 - Manual safety sell mode exists: if the user manually sells TQQQ, the TQQQ repo can be marked with `manual_sold` and a manual sell price.
-- If TQQQ exits later into manual safety mode, the bot waits for a manual re-buy trigger: 5% pullback from manual exit price, SMA200 reset, or 3-trading-day timeout while above SMA200, plus RSI14 <= 80.
+- If TQQQ exits later into manual safety mode, the bot waits for a manual re-buy trigger: 5% pullback from manual exit price, SMA200 reset, or 3-trading-day timeout while above SMA200, plus RSI14 <= 70.
 - The TQQQ repo no longer tracks XLK as the selected waiting asset.
 
 Recommendation as of 2026-05-21:
