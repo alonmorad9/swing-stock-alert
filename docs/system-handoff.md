@@ -9,8 +9,8 @@ This repo is the second trading system. It should stay separate from the existin
 Primary system:
 
 - Existing repo: `tqqq-alert`
-- Strategy: high-risk/high-reward TQQQ-only cash waiting system
-- Status: real system; currently no open TQQQ, manual safety cash/re-entry mode
+- Strategy: high-risk/high-reward TQQQ-only system, cash while out
+- Status: real system; currently an open TQQQ position
 
 Second system:
 
@@ -58,25 +58,25 @@ The better active approach is:
 From the current TQQQ repo state/strategy as of 2026-05-21:
 
 - Ticker: `TQQQ`
-- Current mode: manual safety mode after a user-recorded manual sell
-- Position open: false
-- Shares: `0.0`
-- Tracked cash: about `$2,699.99`
-- Waiting asset: cash only
-- Manual exit price: `$67.37`
-- Manual exit date: `2026-05-05`
-- Manual below-SMA reset seen: false
+- Current mode: active TQQQ position after manual broker buy sync
+- Position open: true
+- Shares: `35.6658`
+- Average cost: `$75.20`
+- Entry date: `2026-05-21`
+- Tracked cash: about `$0.00`
+- Waiting asset: none while TQQQ is open
+- Manual exit mode: false
 - Current selected TQQQ trailing stop: 25% true ratchet
 - Profit target: sell all at +20% from average cost
 - Parabolic auto-exit: sell profitable TQQQ if 5-day return is at least 25% or 10-day return is at least 30%
 - Re-entry guard: TQQQ RSI14 must be at or below 70
 - Manual safety sell mode exists: if the user manually sells TQQQ, the TQQQ repo can be marked with `manual_sold` and a manual sell price.
-- In manual safety mode, the bot waits for a manual re-buy trigger: 7.5% pullback from manual exit price, SMA200 reset, or 3-trading-day timeout while above SMA200, plus RSI14 <= 70.
+- If TQQQ exits later into manual safety mode, the bot waits for a manual re-buy trigger: 7.5% pullback from manual exit price, SMA200 reset, or 3-trading-day timeout while above SMA200, plus RSI14 <= 70.
 - The TQQQ repo no longer tracks XLK as the selected waiting asset.
 
 Recommendation as of 2026-05-21:
 
-- Follow the TQQQ repo's manual safety-mode re-buy instructions.
+- Follow the TQQQ repo's active-position sell/risk instructions.
 - Do not treat the swing repo's TQQQ market reference as the real TQQQ result.
 - Keep the swing strategy as paper/demo evidence for the end-of-month comparison.
 
