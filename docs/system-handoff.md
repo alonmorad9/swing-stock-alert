@@ -1,6 +1,6 @@
 # System Handoff
 
-Last updated: 2026-05-26
+Last updated: 2026-05-27
 
 ## Purpose
 
@@ -58,7 +58,7 @@ The better active approach is:
 
 ## Current TQQQ Context
 
-From the current TQQQ repo state/strategy as of 2026-05-26:
+From the current TQQQ repo state/strategy as of 2026-05-27:
 
 - Ticker: `TQQQ`
 - Current mode: active TQQQ position after manual broker buy sync
@@ -78,7 +78,7 @@ From the current TQQQ repo state/strategy as of 2026-05-26:
 - If TQQQ exits later into manual safety mode, the bot waits for a manual re-buy trigger: 5% pullback from manual exit price, SMA200 reset, or 3-trading-day timeout while above SMA200, plus RSI14 <= 70.
 - The TQQQ repo no longer tracks XLK as the selected waiting asset.
 
-Recommendation as of 2026-05-26:
+Recommendation as of 2026-05-27:
 
 - Follow the TQQQ repo's active-position sell/risk instructions.
 - Use `real-stock-alert` for real stock candidates and bot-only stock comparison.
