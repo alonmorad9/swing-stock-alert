@@ -1,6 +1,6 @@
 # System Handoff
 
-Last updated: 2026-05-27
+Last updated: 2026-05-29
 
 ## Purpose
 
@@ -10,7 +10,7 @@ Primary system:
 
 - Existing repo: `tqqq-alert`
 - Strategy: high-risk/high-reward TQQQ-only system, cash while out
-- Status: real system; currently an open TQQQ position
+- Status: real system; currently out of TQQQ in manual safety cash mode
 
 Second system:
 
@@ -58,17 +58,19 @@ The better active approach is:
 
 ## Current TQQQ Context
 
-From the current TQQQ repo state/strategy as of 2026-05-27:
+From the current TQQQ repo state/strategy as of 2026-05-29:
 
 - Ticker: `TQQQ`
-- Current mode: active TQQQ position after manual broker buy sync
-- Position open: true
-- Shares: `35.6658`
-- Average cost: `$75.20`
-- Entry date: `2026-05-21`
-- Tracked cash: about `$0.00`
-- Waiting asset: none while TQQQ is open
-- Manual exit mode: false
+- Current mode: manual safety cash after manual broker sell sync
+- Position open: false
+- Shares: `0.0`
+- Average cost: `null`
+- Entry date: `null`
+- Tracked cash: `$3,028.38`
+- Waiting asset: cash
+- Manual exit mode: true
+- Manual exit price: `$84.91`
+- Manual exit date: `2026-05-29`
 - Current selected TQQQ trailing stop: 25% true ratchet
 - Profit target: sell all at +20% from average cost
 - Parabolic auto-exit: sell profitable TQQQ if 5-day return is at least 25%.
@@ -78,10 +80,10 @@ From the current TQQQ repo state/strategy as of 2026-05-27:
 - If TQQQ exits later into manual safety mode, the bot waits for a manual re-buy trigger: 5% pullback from manual exit price, SMA200 reset, or 3-trading-day timeout while above SMA200, plus RSI14 <= 70.
 - The TQQQ repo no longer tracks XLK as the selected waiting asset.
 
-Recommendation as of 2026-05-27:
+Recommendation as of 2026-05-29:
 
-- Follow the TQQQ repo's active-position sell/risk instructions.
-- Use `real-stock-alert` for real stock candidates and bot-only stock comparison.
+- Follow the TQQQ repo's manual safety re-entry instructions.
+- Use `real-stock-alert` for optional real stock candidates and bot-only stock comparison while TQQQ is out/waiting.
 - Do not treat the swing repo's TQQQ market reference as the real TQQQ result.
 - Keep this repo paused unless we intentionally run a manual historical report.
 

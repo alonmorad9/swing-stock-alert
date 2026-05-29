@@ -4,7 +4,7 @@ Research archive for the old demo stock swing system.
 
 This repo is intentionally separate from the existing TQQQ alert bot. The TQQQ strategy remains the primary real system, and the TQQQ repo is the source of truth for current real TQQQ position/cash state.
 
-Status as of 2026-05-27: **paused / research archive**. The real stock behavior moved to `real-stock-alert`, which now handles the real stock bucket and bot-only comparison. This repo is kept only for historical May paper-pilot records and manual research reruns.
+Status as of 2026-05-29: **paused / research archive**. The real stock behavior moved to `real-stock-alert`, which now handles the real stock bucket and bot-only comparison. This repo is kept only for historical May paper-pilot records and manual research reruns.
 
 ## Recommended Strategy
 
@@ -84,6 +84,8 @@ The existing TQQQ bot strategy is documented in [docs/tqqq-strategy-context.md](
 Current alignment:
 
 - The live TQQQ repo is the source of truth for real TQQQ position/cash state.
+- As of the 2026-05-29 inspection, TQQQ is out in manual safety cash mode with `$3,028.38` tracked cash.
+- `real-stock-alert` is the optional TQQQ-out stock swing bucket while TQQQ is waiting.
 - This swing repo's TQQQ line is only a market reference.
 - Month-end comparison must not treat the swing paper positions as real holdings.
 
